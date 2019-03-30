@@ -14,7 +14,7 @@ namespace Software_INFO
 {
     /// <summary>
     /// Form che permette di eseguire due operazioni:
-    /// - creazione di file docx in ogni cartella di programma in cui manca
+    /// - creazione di file docx in ogni cartella di informazioni in cui manca
     /// - eliminazione delle cartelle vuote presenti nelle cartelle dei programmi
     /// </summary>
     public partial class Form_Generali : Form
@@ -35,10 +35,10 @@ namespace Software_INFO
         }
 
         /// <summary>
-        /// Metodo per la creazione dei file docx per ogni programma
+        /// Metodo per la creazione dei file docx per ogni informazione
         /// - chiede all'utente se vuole procedere
         /// - disabilita tutti i pulsanti
-        /// - per ogni programma, se il file non esiste, lo crea
+        /// - per ogni informazione, se il file non esiste, lo crea
         /// - informa del numero di file creati
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
@@ -47,10 +47,10 @@ namespace Software_INFO
                 "Creare TUTTI i DOCX?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxResult.OK, System.Windows.MessageBoxOptions.RightAlign);
             if (dialogResult == System.Windows.MessageBoxResult.Yes)
             {
-                button1.Enabled = false;
+                //button1.Enabled = false;
                 button2.Enabled = false;
                 button4.Enabled = false;
-                pictureBox1.Enabled = false;
+                //pictureBox1.Enabled = false;
                 pictureBox2.Enabled = false;
                 countDocx = 0;
                 foreach (Programma p in Globals.PROGRAMMI)
@@ -82,10 +82,10 @@ namespace Software_INFO
                         }
                     }
                 }
-                button1.Enabled = true;
+                //button1.Enabled = true;
                 button2.Enabled = true;
                 button4.Enabled = true;
-                pictureBox1.Enabled = true;
+                //pictureBox1.Enabled = true;
                 pictureBox2.Enabled = true;
                 string msg2 = "Terminata la creazione dei file docx. File creati: " + countDocx;
                 Globals.log.Info(msg2);
@@ -107,10 +107,10 @@ namespace Software_INFO
                 "Eliminare tutte le cartelle vuote?", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxResult.OK, System.Windows.MessageBoxOptions.RightAlign);
             if (dialogResult == System.Windows.MessageBoxResult.Yes)
             {
-                button1.Enabled = false;
+                //button1.Enabled = false;
                 button2.Enabled = false;
                 button4.Enabled = false;
-                pictureBox1.Enabled = false;
+                //pictureBox1.Enabled = false;
                 pictureBox2.Enabled = false;
                 countFolder = 0;
                 try
@@ -124,10 +124,10 @@ namespace Software_INFO
                                     System.Windows.MessageBoxImage.Error, System.Windows.MessageBoxResult.No, System.Windows.MessageBoxOptions.RightAlign);
                     Globals.log.Error(msg);
                 }
-                button1.Enabled = true;
+                //button1.Enabled = true;
                 button2.Enabled = true;
                 button4.Enabled = true;
-                pictureBox1.Enabled = true;
+                //pictureBox1.Enabled = true;
                 pictureBox2.Enabled = true;
                 string msg2 = "Cartelle vuote eliminate: " + countFolder;
                 Globals.log.Info(msg2);

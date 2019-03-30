@@ -12,9 +12,9 @@ using System.Windows.Forms;
 namespace Software_INFO
 {
     /// <summary>
-    /// Form per la modifica di un programma esistente
+    /// Form per la modifica di un'informazione esistente
     /// - verifica che siano immessi dati adeguati
-    /// - aggiunge il programma alla lista e al file PROGRAMMI.csv
+    /// - aggiunge l'informazione alla lista e al file PROGRAMMI.csv
     /// - aggiorna o crea il file .docx
     /// </summary>
     public partial class Form_Modifica : Form
@@ -22,8 +22,8 @@ namespace Software_INFO
         private Programma prog;
 
         /// <summary>
-        /// Costruttore a cui viene passato  il programma da modificare
-        /// Visualizza i dati relativi a quel programma
+        /// Costruttore a cui viene passato l'info da modificare
+        /// Visualizza i dati relativi a quell'info
         /// </summary>
         public Form_Modifica(Programma prog)
         {
@@ -32,8 +32,8 @@ namespace Software_INFO
             label5.Text = "Id" + prog.numero;
             textBox1.Text = prog.nome;
             textBox2.Text = prog.descrizione;
-            textBox3.Text = prog.nomeUtente;
-            textBox4.Text = prog.password;
+            //textBox3.Text = prog.nomeUtente;
+            //textBox4.Text = prog.password;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Software_INFO
         /// <summary>
         /// Metodo che apporta le modifiche all'interno di un programma.
         /// - se ci sono stringhe vuote le sostituisce con "."
-        /// - sostituisce il programma in Globals.PROGRAMMI
+        /// - sostituisce l'info in in Globals.PROGRAMMI
         /// - Appende le modifiche in fondo al file di word (o lo crea se non esiste)
         /// - riscrive il file PROGRAMMI.csv
         /// Chiude il form
@@ -56,8 +56,8 @@ namespace Software_INFO
         {
             prog.nome = textBox1.Text.ToString().Replace(",", "");
             prog.descrizione = textBox2.Text.ToString().Replace(",", "");
-            prog.nomeUtente = textBox3.Text.ToString().Replace(",", "");
-            prog.password = textBox4.Text.ToString().Replace(",", "");
+            //prog.nomeUtente = textBox3.Text.ToString().Replace(",", "");
+            //prog.password = textBox4.Text.ToString().Replace(",", "");
             if (prog.nome.Equals(""))
                 prog.nome = ".";
             if (prog.descrizione.Equals(""))
@@ -68,50 +68,52 @@ namespace Software_INFO
                 prog.password = ".";
             prog.dataModifica = (DateTime.Now).ToString();
             Globals.PROGRAMMI[Globals.PROGRAMMI.FindIndex(r => r.numero == prog.numero)] = prog;
-            string msg = "Aggiornato il programma con indice " + prog.numero;
+            string msg = "Aggiornata l'informazione con indice " + prog.numero;
             Console.WriteLine(msg);
             Globals.log.Info(msg);
-            string fileName = Globals.PROGRAMMIpath + @"\" + "Id" + prog.numero + @"\programma.docx";
-            try
-            {
-                if (!File.Exists(fileName))
-                {
-                    var doc = Xceed.Words.NET.DocX.Create(fileName);
-                    doc.InsertParagraph("\nId" + prog.numero + "  -  " + prog.nome).Bold();
-                    doc.InsertParagraph("\n DATA CREAZIONE: " + prog.dataCreazione);
-                    doc.InsertParagraph("\n NOME UTENTE: " + prog.nomeUtente);
-                    doc.InsertParagraph("\n PASSWORD: " + prog.password);
-                    doc.InsertParagraph("\n DESCRIZIONE: " + prog.descrizione);
-                    doc.Save();
-                }
-                else
-                {
-                    var doc = Xceed.Words.NET.DocX.Load(fileName);
-                    doc.InsertParagraph("Aggiornamento del " + prog.dataModifica).Bold();
-                    doc.InsertParagraph("\nId" + prog.numero + "  -  " + prog.nome).Bold();
-                    doc.InsertParagraph("\n DATA CREAZIONE: " + prog.dataCreazione);
-                    doc.InsertParagraph("\n NOME UTENTE: " + prog.nomeUtente);
-                    doc.InsertParagraph("\n PASSWORD: " + prog.password);
-                    doc.InsertParagraph("\n DESCRIZIONE: " + prog.descrizione);
-                    doc.Save();
-                }
-            }
-            catch (IOException)
-            {
-                string msg2 = "E31 - Il file " + fileName + " non è stato modificato per un problema";
-                MessageBox.Show(msg2, "E31", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
-                Globals.log.Error(msg2);
-            }
+            //string fileName = Globals.PROGRAMMIpath + @"\" + "Id" + prog.numero + @"\programma.docx";
+            //try
+            //{
+            //    if (!File.Exists(fileName))
+            //    {
+            //        var doc = Xceed.Words.NET.DocX.Create(fileName);
+            //        doc.InsertParagraph("\nId" + prog.numero + "  -  " + prog.nome).Bold();
+            //        doc.InsertParagraph("\n DATA CREAZIONE: " + prog.dataCreazione);
+            //        doc.InsertParagraph("\n NOME UTENTE: " + prog.nomeUtente);
+            //        doc.InsertParagraph("\n PASSWORD: " + prog.password);
+            //        doc.InsertParagraph("\n DESCRIZIONE: " + prog.descrizione);
+            //        doc.Save();
+            //    }
+            //    else
+            //    {
+            //        var doc = Xceed.Words.NET.DocX.Load(fileName);
+            //        doc.InsertParagraph("Aggiornamento del " + prog.dataModifica).Bold();
+            //        doc.InsertParagraph("\nId" + prog.numero + "  -  " + prog.nome).Bold();
+            //        doc.InsertParagraph("\n DATA CREAZIONE: " + prog.dataCreazione);
+            //        doc.InsertParagraph("\n NOME UTENTE: " + prog.nomeUtente);
+            //        doc.InsertParagraph("\n PASSWORD: " + prog.password);
+            //        doc.InsertParagraph("\n DESCRIZIONE: " + prog.descrizione);
+            //        doc.Save();
+            //    }
+            //}
+            //catch (IOException)
+            //{
+            //    string msg2 = "E31 - Il file " + fileName + " non è stato modificato per un problema";
+            //    MessageBox.Show(msg2, "E31", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
+            //    Globals.log.Error(msg2);
+            //}
             if (scriviCSV())
             {
-                Globals.log.Info("Programma " + prog.numero + " modificato correttamente");
-                System.Windows.MessageBox.Show("Programma " + prog.numero + "modificato correttamente", "Modificato", System.Windows.MessageBoxButton.OK,
+                string msg2 = "Informazione " + prog.numero + " " + prog.nome + " modificata correttamente";
+                Globals.log.Info(msg);
+                System.Windows.MessageBox.Show(msg2, "Modificato", System.Windows.MessageBoxButton.OK,
                        System.Windows.MessageBoxImage.Information, System.Windows.MessageBoxResult.No, System.Windows.MessageBoxOptions.RightAlign);
             }
             else
             {
-                Globals.log.Error("Programma " + prog.numero + " NON modificato");
-                System.Windows.MessageBox.Show("Programma " + prog.numero + " NON modificato", "NON modificato", System.Windows.MessageBoxButton.OK,
+                string msg2 = "Informazione " + prog.numero + " " + prog.nome + " NON modificata";
+                Globals.log.Error(msg2);
+                System.Windows.MessageBox.Show(msg2, "NON modificato", System.Windows.MessageBoxButton.OK,
                        System.Windows.MessageBoxImage.Information, System.Windows.MessageBoxResult.No, System.Windows.MessageBoxOptions.RightAlign);
             }
             this.Close();
@@ -119,33 +121,33 @@ namespace Software_INFO
         }
 
         /// <summary>
-        /// Metodo per l'eliminazione del programma selezionato
+        /// Metodo per l'eliminazione dell'info selezionata
         /// - chiede all'utente conferma dell'operazione
-        /// - rimuove il programma da Globals.PROGRAMMI
+        /// - rimuove l'info da Globals.PROGRAMMI
         /// - riscrive il file PROGRAMMI.csv
         /// </summary>
         private void button3_Click(object sender, EventArgs e)
         {
-            System.Windows.MessageBoxResult dialogResult = System.Windows.MessageBox.Show("Sei sicuro di voler ELIMINARE il programma " +
+            System.Windows.MessageBoxResult dialogResult = System.Windows.MessageBox.Show("Sei sicuro di voler ELIMINARE l'informazione " +
                 prog.nome + " con codice Id" + prog.numero + "?",
                "Conferma Eliminazione", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Warning, System.Windows.MessageBoxResult.OK, System.Windows.MessageBoxOptions.RightAlign);
             if (dialogResult == System.Windows.MessageBoxResult.Yes)
             {
                 if (prog.numero != 0)
                 {
-                    Console.WriteLine("Rimozione programma " + prog.numero);
-                    Globals.log.Info("Rimozione programma " + prog.numero);
+                    Console.WriteLine("Rimozione informazione " + prog.numero);
+                    Globals.log.Info("Rimozione informazione " + prog.numero);
                     Globals.PROGRAMMI.Remove(prog);
                     if (scriviCSV())
                     {
-                        Globals.log.Info("Programma eliminato");
-                        System.Windows.MessageBox.Show("Programma eliminato", "Eliminato", System.Windows.MessageBoxButton.OK,
+                        Globals.log.Info("Informazione eliminata");
+                        System.Windows.MessageBox.Show("Informazione eliminata", "Eliminata", System.Windows.MessageBoxButton.OK,
                                System.Windows.MessageBoxImage.Information, System.Windows.MessageBoxResult.No, System.Windows.MessageBoxOptions.RightAlign);
                     }
                     else
                     {
-                        Globals.log.Error("Programma NON eliminato");
-                        System.Windows.MessageBox.Show("Programma NON eliminato", "NON Eliminato", System.Windows.MessageBoxButton.OK,
+                        Globals.log.Error("Informazione NON eliminata");
+                        System.Windows.MessageBox.Show("Informazione NON eliminata", "NON Eliminata", System.Windows.MessageBoxButton.OK,
                                System.Windows.MessageBoxImage.Information, System.Windows.MessageBoxResult.No, System.Windows.MessageBoxOptions.RightAlign);
                     }
                 }

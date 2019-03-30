@@ -90,7 +90,7 @@ namespace Software_INFO
             catch (FormatException)
             {
                 string msg = "E02 - Il file " + Globals.DATI + @"PROGRAMMI.csv" +
-                    " è in un formato non corretto. \nProblema riscontrato al programma numero: " + j;
+                    " è in un formato non corretto. \nProblema riscontrato all'informazione numero: " + j;
                 MessageBox.Show(msg, "E02", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.RightAlign);
                 Globals.log.Error(msg);
             }
@@ -155,7 +155,7 @@ namespace Software_INFO
         /// - LEGGE I PROGRAMMI DA FILE (unica cosa in più del precedente)
         /// - aggiorna le ultime modifiche in programmi
         /// - aggiunge tutti i programmi presenti dopo aver svuotato la DataGrid
-        /// - seleziona l'ultimo programma della lista (quello appena creato in teoria)
+        /// - seleziona l'ultima informazione della lista (quello appena creato in teoria)
         /// </summary>
         private void readAgainListPrograms(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
@@ -227,8 +227,8 @@ namespace Software_INFO
         {
             Console.WriteLine("Set visibility");
             Globals.log.Info("Set visibility");
-            MenuItem ma = this.FindName("Menu_anteprima_check") as MenuItem;
-            ma.IsChecked = Globals.ANTEPRIME;
+            //MenuItem ma = this.FindName("Menu_anteprima_check") as MenuItem;
+            //ma.IsChecked = Globals.ANTEPRIME;
             if (!Globals.ANTEPRIME)
             {
                 RichTextBox richTextBox = this.FindName("richTextBox") as RichTextBox;
@@ -255,7 +255,8 @@ namespace Software_INFO
         /// </summary>
         private void Button_Open_Folder(object sender, RoutedEventArgs e)
         {
-            string path = Globals.PROGRAMMIpath + "Id" + ProgSelezionato;
+            Programma itemToRemove = Globals.PROGRAMMI.Single(r => r.numero == ProgSelezionato);
+            string path = Globals.PROGRAMMIpath + "Id" + ProgSelezionato + " - " + itemToRemove.nome;
             Console.WriteLine(path);
             if (Directory.Exists(path))
             {
@@ -272,13 +273,20 @@ namespace Software_INFO
         }
 
         /// <summary>
-        /// Bottone per la creazione di un nuovo programma.
+        /// Bottone per la creazione di una nuova informazione.
         /// Chiama il FORM Form_NuovoProgramma. 
         /// </summary>
         private void Button_New_Program(object sender, RoutedEventArgs e)
         {
             newProgram = true;
-            Form_NuovoProgramma form = new Form_NuovoProgramma(Globals.PROGRAMMI.Last().numero);
+            Form_NuovoProgramma form;
+            try
+            {
+                form = new Form_NuovoProgramma(Globals.PROGRAMMI.Last().numero);
+            }catch(InvalidOperationException)
+            {
+                form = new Form_NuovoProgramma(0);
+            }
             form.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.readAgainListPrograms);
             form.ShowDialog();
         }
@@ -288,39 +296,39 @@ namespace Software_INFO
         /// - se esiste: apre il file docx
         /// - se non esiste : crea un file docx con tutte le informazioni del programma
         /// </summary>
-        private void Button_Apri_Docx(object sender, RoutedEventArgs e)
-        {
-            string file = Globals.PROGRAMMIpath + "Id" + ProgSelezionato + @"\programma.docx";
-            if (File.Exists(file))
-            {
-                System.Diagnostics.Process.Start(file);
-            }
-            else
-            {
-                Programma programma = Globals.PROGRAMMI.Find(x => x.numero.Equals(ProgSelezionato));
-                if (programma != null)
-                {
-                    try
-                    {
-                        var doc = Xceed.Words.NET.DocX.Create(file);
-                        doc.InsertParagraph("Id" + ProgSelezionato + "  -  " + programma.nome).Bold();
-                        doc.InsertParagraph("\n DATA CREAZIONE: " + programma.dataCreazione);
-                        doc.InsertParagraph("\n NOME UTENTE: " + programma.nomeUtente);
-                        doc.InsertParagraph("\n PASSWORD: " + programma.password);
-                        doc.InsertParagraph("\n DESCRIZIONE: " + programma.descrizione);
-                        doc.Save();
-                    }
-                    catch (IOException)
-                    {
-                        string msg = "E05 - Il file " + file + " non è stato creato per un problema";
-                        MessageBox.Show(msg, "E05", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.RightAlign);
-                        Globals.log.Error(msg);
-                    }
-                    DataGrid dataGrid = this.FindName("dataGrid") as DataGrid;
-                    ChangePreview(dataGrid, null);
-                }
-            }
-        }
+        //private void Button_Apri_Docx(object sender, RoutedEventArgs e)
+        //{
+        //    string file = Globals.PROGRAMMIpath + "Id" + ProgSelezionato + @"\programma.docx";
+        //    if (File.Exists(file))
+        //    {
+        //        System.Diagnostics.Process.Start(file);
+        //    }
+        //    else
+        //    {
+        //        Programma programma = Globals.PROGRAMMI.Find(x => x.numero.Equals(ProgSelezionato));
+        //        if (programma != null)
+        //        {
+        //            try
+        //            {
+        //                var doc = Xceed.Words.NET.DocX.Create(file);
+        //                doc.InsertParagraph("Id" + ProgSelezionato + "  -  " + programma.nome).Bold();
+        //                doc.InsertParagraph("\n DATA CREAZIONE: " + programma.dataCreazione);
+        //                doc.InsertParagraph("\n NOME UTENTE: " + programma.nomeUtente);
+        //                doc.InsertParagraph("\n PASSWORD: " + programma.password);
+        //                doc.InsertParagraph("\n DESCRIZIONE: " + programma.descrizione);
+        //                doc.Save();
+        //            }
+        //            catch (IOException)
+        //            {
+        //                string msg = "E05 - Il file " + file + " non è stato creato per un problema";
+        //                MessageBox.Show(msg, "E05", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.RightAlign);
+        //                Globals.log.Error(msg);
+        //            }
+        //            DataGrid dataGrid = this.FindName("dataGrid") as DataGrid;
+        //            ChangePreview(dataGrid, null);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Bottone che attiva il controllo delle ultime modifiche di tutti i programmi nella cartella di questo cliente.
@@ -348,7 +356,7 @@ namespace Software_INFO
             }).ContinueWith(task =>
             {
                 buttonModifiche.IsEnabled = true;
-                string msg = "Le ultime modifiche di tutti i programmi sono state aggiornate e caricate nel relativo file csv.";
+                string msg = "Le ultime modifiche di tutte le cartelle sono state aggiornate e caricate nel relativo file csv.";
                 MessageBox.Show(msg, "Modifiche aggiornate"
                                      , MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RightAlign);
                 Globals.log.Info(msg);
@@ -368,9 +376,9 @@ namespace Software_INFO
 
 
         /// <summary>
-        /// Bottone che apre il form per la modifica del programma selezionato
+        /// Bottone che apre il form per la modifica dell'informazione selezionata
         /// - Possibilità di cambiarne i parametri
-        /// - Possibilità di eliminare il programma
+        /// - Possibilità di eliminare l'informazione
         /// </summary>
         private void Button_Modify(object sender, RoutedEventArgs e)
         {
@@ -404,7 +412,7 @@ namespace Software_INFO
 
         /// <summary>
         /// Funzioni per consentire di navigare la DataGrid con le freccie su e giù mentre si effettua una ricerca.
-        /// Con invio si apre la cartella del filesystem del programma selezionato
+        /// Con invio si apre la cartella del filesystem dell'informazione selezionata
         /// </summary>
         private void PreviewKeyDown2(object sender, KeyEventArgs e)
         {
@@ -438,29 +446,29 @@ namespace Software_INFO
         /// - aggiorna ProgSelezionato.
         /// - carica docx di anteprima (se disponibile)
         /// NullReferenceException spesso sollevata perchè quando si cerca si ricarica la DataGrid e 
-        /// per un istante non c'è nessun programma selezionato. 
+        /// per un istante non c'è nessuna informazione selezionata. 
         /// </summary>
         private void ChangePreview(object sender, EventArgs e)
         {
             Console.WriteLine("Change Preview");
             Globals.log.Info("Change Preview");
-            RichTextBox richTextBox = this.FindName("richTextBox") as RichTextBox;
-            Button button = this.FindName("buttonOpenDocx") as Button;
+            //RichTextBox richTextBox = this.FindName("richTextBox") as RichTextBox;
+            //Button button = this.FindName("buttonOpenDocx") as Button;
             try
             {
                 ProgSelezionato = (((Programma)((DataGrid)sender).SelectedValue).numero);
                 if (Globals.ANTEPRIME)
                 {
-                    richTextBox.Visibility = Visibility.Visible;
-                    button.Visibility = Visibility.Visible;
+                    //richTextBox.Visibility = Visibility.Visible;
+                    //button.Visibility = Visibility.Visible;
                     string file = Globals.PROGRAMMIpath + "Id" + ProgSelezionato + @"\programma.docx";
                     if (File.Exists(file))
                     {
                         try
                         {
                             var doc = Xceed.Words.NET.DocX.Load(file);
-                            richTextBox.Document.Blocks.Clear();
-                            richTextBox.AppendText(doc.Text);
+                            //richTextBox.Document.Blocks.Clear();
+                            //richTextBox.AppendText(doc.Text);
                         }catch(IOException)
                         {
                             string msg = "E52 - Il file " + file + " non è accessibile";
@@ -469,22 +477,22 @@ namespace Software_INFO
                     }
                     else
                     {
-                        richTextBox.Document.Blocks.Clear();
-                        richTextBox.Visibility = Visibility.Hidden;
+                        //richTextBox.Document.Blocks.Clear();
+                        //richTextBox.Visibility = Visibility.Hidden;
                         //button.Visibility = Visibility.Hidden;
                     }
                 }
             }
             catch (NullReferenceException nre)
             {
-                richTextBox.Visibility = Visibility.Hidden;
-                button.Visibility = Visibility.Visible;
+                //richTextBox.Visibility = Visibility.Hidden;
+                //button.Visibility = Visibility.Visible;
                 Globals.log.Warn("Eccezione in changePreview: " + nre);
             }
             if (!Globals.ANTEPRIME)
             {
-                richTextBox.Visibility = Visibility.Hidden;
-                button.Visibility = Visibility.Hidden;
+                //richTextBox.Visibility = Visibility.Hidden;
+                //button.Visibility = Visibility.Hidden;
             }
 
         }
@@ -573,7 +581,7 @@ namespace Software_INFO
         {
             bool value = ((MenuItem)sender).IsChecked;
             RichTextBox richTextBox = this.FindName("richTextBox") as RichTextBox;
-            Button button = this.FindName("buttonOpenDocx") as Button;
+            //Button button = this.FindName("buttonOpenDocx") as Button;
             if (value != Globals.ANTEPRIME)
             {
                 Globals.ANTEPRIME = value;
@@ -582,7 +590,7 @@ namespace Software_INFO
             }
             if (value)
             {
-                button.Visibility = Visibility.Visible;
+                //button.Visibility = Visibility.Visible;
                 richTextBox.Visibility = Visibility.Visible;
                 DataGrid dataGrid = this.FindName("dataGrid") as DataGrid;
                 ChangePreview(dataGrid, null);
@@ -590,13 +598,13 @@ namespace Software_INFO
             else
             {
                 richTextBox.Visibility = Visibility.Hidden;
-                button.Visibility = Visibility.Hidden;
+                //button.Visibility = Visibility.Hidden;
             }
 
         }
 
         /// <summary>
-        /// Se l'utente conferma crea un file programma.docx per ogni programma con i dati del programma.
+        /// Se l'utente conferma crea un file programma.docx per ogni programma con i dati dell'informazione.
         /// </summary>
         private void Menu_Settings(object sender, RoutedEventArgs e)
         {

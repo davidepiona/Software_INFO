@@ -36,10 +36,6 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -99,7 +95,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(150, 50);
             this.button2.TabIndex = 31;
-            this.button2.Text = "Crea Programma";
+            this.button2.Text = "Crea Informazione";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -128,48 +124,6 @@
             this.materialFlatButton1.Primary = false;
             this.materialFlatButton1.Size = new System.Drawing.Size(16, 36);
             this.materialFlatButton1.TabIndex = 0;
-            // 
-            // textBox4
-            // 
-            this.textBox4.BackColor = System.Drawing.Color.Ivory;
-            this.textBox4.Font = new System.Drawing.Font("Dubai Medium", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(281, 276);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(409, 35);
-            this.textBox4.TabIndex = 27;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.SteelBlue;
-            this.label2.Font = new System.Drawing.Font("Dubai Medium", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Ivory;
-            this.label2.Location = new System.Drawing.Point(125, 276);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(118, 39);
-            this.label2.TabIndex = 35;
-            this.label2.Text = "Password";
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.Ivory;
-            this.textBox3.Font = new System.Drawing.Font("Dubai Medium", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(281, 221);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(409, 35);
-            this.textBox3.TabIndex = 26;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.SteelBlue;
-            this.label4.Font = new System.Drawing.Font("Dubai Medium", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Ivory;
-            this.label4.Location = new System.Drawing.Point(125, 221);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(156, 39);
-            this.label4.TabIndex = 33;
-            this.label4.Text = "Nome Utente";
             // 
             // label5
             // 
@@ -201,10 +155,6 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(748, 426);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
@@ -233,10 +183,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private MaterialSkin.Controls.MaterialFlatButton materialFlatButton1;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBox1;
     }

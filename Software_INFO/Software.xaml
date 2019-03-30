@@ -51,11 +51,11 @@ Height="40" Click="Button_Open_Folder" Background="Ivory"  x:Name="BottApri"
         <Button Grid.Column="5" Grid.Row="5"  Width="150" HorizontalAlignment="Center"
             Height="40" Click="Button_Ultime_Modifiche" Background="Ivory" Content="Ultime Modifiche" x:Name="BottModifiche" 
                 ToolTip="Aggiorna le ultime modifiche di ogni informazione: &#xA; - cerca l'ultima modifica di ogni cartella &#xA; - aggiorna i valori dei programmi &#xA; - aggiorna la tabella &#xA; - la scrive in SETTINGS.csv" ToolTipService.InitialShowDelay="2000" BorderBrush="{x:Null}" Foreground="#FF212121"/>
-        <Button Grid.Column="5" Grid.Row="6"  Width="150" HorizontalAlignment="Center"
+        <!--<Button Grid.Column="5" Grid.Row="6"  Width="150" HorizontalAlignment="Center"
             Height="40" Click="Button_Save" Background="Ivory" x:Name="BottSalva"
                 ToolTip="Salva le modifiche apportate alla tabella" ToolTipService.InitialShowDelay="2000" BorderBrush="{x:Null}" Foreground="#FF212121">
             <Image Source="T:\INFO\INFO\SRC\save.png"/>
-        </Button>
+        </Button>-->
         <Button Grid.Column="5" Grid.Row="4"  Width="150" HorizontalAlignment="Center"
             Height="40" Click="Button_Modify" Background="Ivory" x:Name="BottElimina"
                 ToolTip="Apre il form di modifica del informazione &#xA; - possibilità di modificarla&#xA; - possibilità di eliminarla" ToolTipService.InitialShowDelay="2000" BorderBrush="{x:Null}" Foreground="#FF212121">
@@ -75,16 +75,16 @@ Height="40" Click="Button_Open_Folder" Background="Ivory"  x:Name="BottApri"
         <Image Grid.ColumnSpan="6" Grid.Row="1" Height='20' Width='20' HorizontalAlignment="Center" 
                Margin="0,20,210,17" VerticalAlignment="Top" 
                Source="T:\INFO\INFO\SRC\magnifier.png" />
-        <CheckBox x:Name="Obsoleto_CheckBox" Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" HorizontalAlignment="Center" IsChecked="{x:Null}"
+        <!--<CheckBox x:Name="Obsoleto_CheckBox" Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" HorizontalAlignment="Center" IsChecked="{x:Null}"
                  Margin="0,15,30,20" Background="Ivory" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Indeterminate="CheckBox_Indeterminate" IsThreeState="True"
-                  ToolTip="Filtra i progammi a seconda del loro stato &#x0a;TUTTI / RECENTI / OBSOLETI" ToolTipService.InitialShowDelay="2000"></CheckBox>
+                  ToolTip="Filtra i progammi a seconda del loro stato &#x0a;TUTTI / RECENTI / OBSOLETI" ToolTipService.InitialShowDelay="2000"></CheckBox>-->
 
-        <RichTextBox x:Name="richTextBox" Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Margin="5,5,5,5" IsReadOnly="True" Visibility="Hidden" />
+        <!--<RichTextBox x:Name="richTextBox" Grid.Column="0" Grid.Row="4" Grid.RowSpan="3" Margin="5,5,5,5" IsReadOnly="True" Visibility="Hidden" />
         <Button x:Name="buttonOpenDocx" Grid.Column="0" Grid.Row="7"  Width="150" HorizontalAlignment="Center" 
             Height="40" Click="Button_Apri_Docx"  Visibility="Hidden" BorderBrush="{x:Null}" Foreground="#FF212121" Background="Ivory"
                 ToolTip="Controlla se esiste un file info.docx &#x0a;- se esiste: lo apre in word &#x0a;- se non esiste : lo crea" ToolTipService.InitialShowDelay="2000">
             <Image Source="T:\INFO\INFO\SRC\word.jpg"></Image>
-        </Button>
+        </Button>-->
         <Menu DockPanel.Dock="Left" Grid.Column="5"  Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Center"
               Margin="0,0,40,0">
             <MenuItem Width="50" Height="50" FlowDirection="RightToLeft">
@@ -101,7 +101,7 @@ Height="40" Click="Button_Open_Folder" Background="Ivory"  x:Name="BottApri"
                         <Image Source="T:\INFO\INFO\SRC\settings.ico" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Mostra info.docx" Click="Menu_anteprima" IsCheckable="True" x:Name="Menu_anteprima_check" Background="Ivory"/>
+                <!--<MenuItem Header="Mostra info.docx" Click="Menu_anteprima" IsCheckable="True" x:Name="Menu_anteprima_check" Background="Ivory"/>-->
             </MenuItem>
         </Menu>
         <DataGrid AutoGenerateColumns="False" x:Name="dataGrid" Grid.Column="1" Grid.ColumnSpan="5" HorizontalAlignment="Left" Width="880" Height="566" Margin="10,50,-239.715,0" 
@@ -119,8 +119,9 @@ Height="40" Click="Button_Open_Folder" Background="Ivory"  x:Name="BottApri"
                 <DataGridTextColumn Header="Id" IsReadOnly="True" Binding="{Binding numero}" Width="90" FontSize="13" />
                 <DataGridTextColumn Header="Nome" IsReadOnly="True"  Binding="{Binding nome}" Width="370" FontSize="15" />
                 <DataGridTextColumn Header="Ultima Modifica" IsReadOnly="True"  Binding="{Binding dataModifica}" Width="190" FontSize="13" />
-                <DataGridCheckBoxColumn Header="Cartella" Binding="{Binding Path=presenzaCartella}" CanUserResize="False" Width="80" />
-                <DataGridCheckBoxColumn Header="Obsoleto" Binding="{Binding Path=obsoleto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFixed}" CanUserResize="False" Width="80" />
+                <DataGridTextColumn Header="Data Creazione" IsReadOnly="True"  Binding="{Binding dataCreazione}" Width="160" FontSize="13" />
+                <!--<DataGridCheckBoxColumn Header="Cartella" Binding="{Binding Path=presenzaCartella}" CanUserResize="False" Width="80" />
+                <DataGridCheckBoxColumn Header="Obsoleto" Binding="{Binding Path=obsoleto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFixed}" CanUserResize="False" Width="80" />-->
 
                 <!--<DataGridCheckBoxColumn.CellStyle>
                         <Style>

@@ -12,7 +12,7 @@ namespace Software_INFO
         /// Classe Progetto composta dagli elementi presenti nei file PROGRAMMI.csv
         /// Getter e Setter classici. 
         /// Sono presenti alcuni elementi aggiuntivi: 
-        /// - dataModifica: ultima modifica della cartella relativa al programma; in seguito ad alcune operazioni viene trovata e aggiunta agli oggetti
+        /// - dataModifica: ultima modifica della cartella relativa all'informazione; in seguito ad alcune operazioni viene trovata e aggiunta agli oggetti
         /// </summary>
         public int numero { get; set; }
         public string nome { get; set; }

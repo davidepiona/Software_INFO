@@ -12,9 +12,9 @@ using System.Windows.Forms;
 namespace Software_INFO
 {
     /// <summary>
-    /// Form per la creazione di un nuovo programma
+    /// Form per la creazione di un nuova informazione
     /// - verifica che siano immessi dati adeguati
-    /// - aggiunge il programma alla lista e al file PROGRAMMI.csv
+    /// - aggiunge un'informazione alla lista e al file PROGRAMMI.csv
     /// - crea la cartella e il file .docx
     /// </summary>
     public partial class Form_NuovoProgramma : Form
@@ -22,9 +22,8 @@ namespace Software_INFO
 
         private int ultimoProgramma;
         /// <summary>
-        /// Costruttore a cui viene passato l'indice dell'ultimo programma in lista
+        /// Costruttore a cui viene passato l'indice dell'ultima informazione in lista
         /// </summary>
-        /// <param name="ultimoProgramma"></param>
         public Form_NuovoProgramma(int ultimoProgramma)
         {
             this.ultimoProgramma = ultimoProgramma;
@@ -42,9 +41,9 @@ namespace Software_INFO
         }
 
         /// <summary>
-        /// Metodo che prova a creare un nuovo programma.
+        /// Metodo che prova a creare un nuova informazione.
         /// - se ci sono stringhe vuote le sostituisce con "."
-        /// - aggiunge il programma al file PROGRAMMI.csv
+        /// - aggiunge l'informazione al file PROGRAMMI.csv
         /// - crea la cartella per i file (se non esiste)
         /// Chiude il form
         /// </summary>
@@ -52,8 +51,10 @@ namespace Software_INFO
         {
             string nome = textBox1.Text.ToString().Replace(",", "");
             string descrizione = textBox2.Text.ToString().Replace(",", "");
-            string nomeUtente = textBox3.Text.ToString().Replace(",", "");
-            string password = textBox4.Text.ToString().Replace(",", "");
+            //string nomeUtente = textBox3.Text.ToString().Replace(",", "");
+            string nomeUtente = "";
+            //string password = textBox4.Text.ToString().Replace(",", "");
+            string password = "";
             if (nome.Equals(""))
                 nome = ".";
             if (descrizione.Equals(""))
@@ -76,14 +77,14 @@ namespace Software_INFO
                                         password + "," +
                                         descrizione + "," +
                                         "False" + Environment.NewLine;
-                Console.WriteLine("Aggiugo il programma: " + programDetails);
+                Console.WriteLine("Aggiugo l'informazione: " + programDetails);
                 File.AppendAllText(file, programDetails);
-                string msg = "Nuovo programma; avrà l'indice: " + num;
+                string msg = "Nuova informazione; avrà l'indice: " + num;
                 Console.WriteLine(msg);
                 Globals.log.Info(msg);
                 try
                 {
-                    Directory.CreateDirectory(Globals.PROGRAMMIpath + @"\" + "Id" + num);
+                    Directory.CreateDirectory(Globals.PROGRAMMIpath + @"\" + "Id" + num + " - " + nome);
                 }
                 catch (IOException)
                 {
@@ -92,24 +93,24 @@ namespace Software_INFO
                                          , MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
                     Globals.log.Error(msg2);
                 }
-                string fileName = Globals.PROGRAMMIpath + @"\" + "Id" + num + @"\programma.docx";
-                try
-                {
-                    var doc = Xceed.Words.NET.DocX.Create(fileName);
-                    doc.InsertParagraph("Id" + num + "  -  " + nome).Bold();
-                    doc.InsertParagraph("\n DATA CREAZIONE: " + data);
-                    doc.InsertParagraph("\n NOME UTENTE: " + nomeUtente);
-                    doc.InsertParagraph("\n PASSWORD: " + password);
-                    doc.InsertParagraph("\n DESCRIZIONE: " + descrizione);
-                    doc.Save();
-                }
-                catch (IOException)
-                {
-                    string msg2 = "E16 - Il file " + fileName + " non è stato creato per un problema";
-                    MessageBox.Show(msg2, "E16", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
-                    Globals.log.Error(msg2);
-                }
-                Globals.log.Info("Aggiunto programma");
+                //string fileName = Globals.PROGRAMMIpath + @"\" + "Id" + num + @"\programma.docx";
+                //try
+                //{
+                //    var doc = Xceed.Words.NET.DocX.Create(fileName);
+                //    doc.InsertParagraph("Id" + num + "  -  " + nome).Bold();
+                //    doc.InsertParagraph("\n DATA CREAZIONE: " + data);
+                //    doc.InsertParagraph("\n NOME UTENTE: " + nomeUtente);
+                //    doc.InsertParagraph("\n PASSWORD: " + password);
+                //    doc.InsertParagraph("\n DESCRIZIONE: " + descrizione);
+                //    doc.Save();
+                //}
+                //catch (IOException)
+                //{
+                //    string msg2 = "E16 - Il file " + fileName + " non è stato creato per un problema";
+                //    MessageBox.Show(msg2, "E16", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
+                //    Globals.log.Error(msg2);
+                //}
+                Globals.log.Info("Aggiunta informazione");
                 this.Close();
             }
             catch (IOException)

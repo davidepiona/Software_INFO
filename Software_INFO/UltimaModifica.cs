@@ -36,14 +36,14 @@ namespace Software_INFO
             Globals.log.Info("Aggiorno Modifiche");
             foreach (Programma p in programmi)
             {
-                if (allDate.TryGetValue("Id" + p.numero, out DateTime ultima))
+                if (allDate.TryGetValue("Id" + p.numero + " - " + p.nome, out DateTime ultima))
                 {
                     p.dataModifica = ultima.ToString("yyyy/MM/dd HH:mm:ss");
                 }
             }
             foreach (Programma p in programmi)
             {
-                string path = Globals.PROGRAMMIpath + "Id" + p.numero;
+                string path = Globals.PROGRAMMIpath + "Id" + p.numero + " - " + p.nome;
                 if (Directory.Exists(path) && Directory.GetFileSystemEntries(path, "*.*").Count() > 0)
                 {
                     p.presenzaCartella = true;
