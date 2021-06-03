@@ -1,0 +1,143 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Software_INFO
+{
+    /// <summary>
+    /// Form per la creazione di un nuova informazione
+    /// - verifica che siano immessi dati adeguati
+    /// - aggiunge un'informazione alla lista e al file PROGRAMMI.csv
+    /// - crea la cartella e il file .docx
+    /// </summary>
+    public partial class Form_NuovoProgramma : Form
+    {
+
+        private int ultimoProgramma;
+        /// <summary>
+        /// Costruttore a cui viene passato l'indice dell'ultima informazione in lista
+        /// </summary>
+        public Form_NuovoProgramma(int ultimoProgramma)
+        {
+            this.ultimoProgramma = ultimoProgramma;
+
+            InitializeComponent();
+            label5.Text = "Id" + (ultimoProgramma + 1).ToString();
+        }
+
+        /// <summary>
+        /// Esce dal form senza apportare modifiche
+        /// </summary>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        /// <summary>
+        /// Metodo che prova a creare un nuova informazione.
+        /// - se ci sono stringhe vuote le sostituisce con "."
+        /// - aggiunge l'informazione al file PROGRAMMI.csv
+        /// - crea la cartella per i file (se non esiste)
+        /// Chiude il form
+        /// </summary>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string nome = textBox1.Text.ToString().Replace(",", "");
+            string descrizione = textBox2.Text.ToString().Replace(",", "");
+            //string nomeUtente = textBox3.Text.ToString().Replace(",", "");
+            string nomeUtente = "";
+            //string password = textBox4.Text.ToString().Replace(",", "");
+            string password = "";
+            if (nome.Equals(""))
+                nome = ".";
+            if (descrizione.Equals(""))
+                descrizione = ".";
+            if (nomeUtente.Equals(""))
+                nomeUtente = ".";
+            if (password.Equals(""))
+                password = ".";
+            string data = (DateTime.Now).ToString();
+            int num = ultimoProgramma + 1;
+            string file = Globals.DATI + "PROGRAMMI.csv";
+            try
+            {
+                string programDetails = num + "," +
+                                        nome + "," +
+                                        data + "," +
+                                        "." + "," +
+                                        "False" + "," +
+                                        nomeUtente + "," +
+                                        password + "," +
+                                        descrizione + "," +
+                                        "False" + Environment.NewLine;
+                Console.WriteLine("Aggiugo l'informazione: " + programDetails);
+                File.AppendAllText(file, programDetails);
+                string msg = "Nuova informazione; avrà l'indice: " + num;
+                Console.WriteLine(msg);
+                Globals.log.Info(msg);
+                try
+                {
+                    Directory.CreateDirectory(Globals.PROGRAMMIpath + @"\" + "Id" + num + " - " + nome);
+                }
+                catch (IOException)
+                {
+                    string msg2 = "E15 - La cartella " + Globals.PROGRAMMIpath + @"\" + "Id" + num + " non è stata creata per un problema";
+                    MessageBox.Show(msg2, "E15"
+                                         , MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
+                    Globals.log.Error(msg2);
+                }
+                //string fileName = Globals.PROGRAMMIpath + @"\" + "Id" + num + @"\programma.docx";
+                //try
+                //{
+                //    var doc = Xceed.Words.NET.DocX.Create(fileName);
+                //    doc.InsertParagraph("Id" + num + "  -  " + nome).Bold();
+                //    doc.InsertParagraph("\n DATA CREAZIONE: " + data);
+                //    doc.InsertParagraph("\n NOME UTENTE: " + nomeUtente);
+                //    doc.InsertParagraph("\n PASSWORD: " + password);
+                //    doc.InsertParagraph("\n DESCRIZIONE: " + descrizione);
+                //    doc.Save();
+                //}
+                //catch (IOException)
+                //{
+                //    string msg2 = "E16 - Il file " + fileName + " non è stato creato per un problema";
+                //    MessageBox.Show(msg2, "E16", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
+                //    Globals.log.Error(msg2);
+                //}
+                Globals.log.Info("Aggiunta informazione");
+                this.Close();
+            }
+            catch (IOException)
+            {
+                string msg = "E17 - Il file " + file + " non esiste o è aperto da un altro programma";
+                MessageBox.Show(msg, "E17", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.RightAlign);
+                Globals.log.Error(msg);
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            //MessageBox.Show(textBox2.Text[textBox2.Text.Length - 1].ToString());
+            try
+            {
+                if (textBox2.Text[textBox2.Text.Length - 1].ToString().Equals("\r") ||
+                    textBox2.Text[textBox2.Text.Length - 1].ToString().Equals("\r\n") ||
+                    textBox2.Text[textBox2.Text.Length - 1].ToString().Equals("\n"))
+                {
+                    textBox2.Text = textBox2.Text.Remove(textBox2.Text.Length - 1);
+                    textBox2.SelectionStart = textBox2.Text.Length + 1;
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                //la stringa è vuota, no problem
+            }
+        }
+    }
+}
